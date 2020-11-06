@@ -1,0 +1,6 @@
+include ':rxmvi'
+include ':demo:demoapp'
+include ':demo:demoapp2'
+include ':demo:demoapp3'
+include ':demo:demoapp4'
+rootProject.name = "RxMvi"
