@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.bilingoal.rxmvi.core.actions
+package com.maximcode.rxmvi.core.actions
 
 /**
  *  An interface that represents an internal action to change the state.
