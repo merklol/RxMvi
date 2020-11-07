@@ -21,18 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.maximcode.demoapp4.main
 
-import androidx.hilt.lifecycle.ViewModelInject
-import com.maximcode.rxmvi.core.store.Store
-import com.maximcode.rxmvi.utils.plusAssign
-import com.maximcode.rxmvi.view.RxMviViewModel
-import io.reactivex.rxjava3.core.Observable
+package com.maximcode.rxmvi.utils
 
-class MainViewModel @ViewModelInject constructor(
-    private val store: Store<MainState>): RxMviViewModel<MainState>(store) {
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.disposables.Disposable
 
-    fun validateText(uiEvent: Observable<CharSequence>) {
-        disposingActions += store.dispatch(uiEvent) { MainAction.ValidateText(it.toString()) }
-    }
+public operator fun CompositeDisposable.plusAssign(disposable: Disposable) {
+    this.add(disposable)
 }

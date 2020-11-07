@@ -25,6 +25,7 @@ package com.maximcode.demoapp.main
 
 import androidx.hilt.lifecycle.ViewModelInject
 import com.maximcode.rxmvi.core.store.Store
+import com.maximcode.rxmvi.utils.plusAssign
 import com.maximcode.rxmvi.view.RxMviViewModel
 import io.reactivex.rxjava3.core.Observable
 
@@ -32,11 +33,11 @@ class CounterViewModel @ViewModelInject constructor(
     val store: Store<CounterState>): RxMviViewModel<CounterState>(store) {
 
     fun incrementCounter(uiEvent: Observable<Unit>) {
-        disposingActions.add(store.dispatch(uiEvent){ MainAction.Increment(1) })
+        disposingActions += store.dispatch(uiEvent){ MainAction.Increment(1) }
     }
 
     fun decrementCounter(uiEvent: Observable<Unit>) {
-        disposingActions.add(store.dispatch(uiEvent){ MainAction.Decrement(1) })
+        disposingActions += store.dispatch(uiEvent){ MainAction.Decrement(1) }
     }
 
     fun showHint(uiEvent: Observable<Unit>) {
