@@ -45,6 +45,7 @@ data class MainState(val text: String = "")
 #### Action
 
 Then, let's add a sealed class to define the actions of our app.
+
 > Note: All actions should implement the Action interface.
 
 ```kotlin
@@ -73,6 +74,7 @@ class MainReducer: Reducer<MainState> {
 #### ViewModel
 
 Then, we add a ViewModel. 
+
 > Note: All ViewModels should extend RxMviViewModel<**State**> to get RxMvi functionality.
 
 ```kotlin
@@ -87,7 +89,8 @@ class MainViewModel @ViewModelInject constructor(
 
 #### View
 
-Finally, let's add our view(*Activity/Fragment/etc*).
+Let's add our view(*Activity/Fragment/etc*).
+
 > Note: All Views should extend RxMviView<**State, ViewModel: RxMviViewModel<State>**> to get RxMvi functionality.
 
 ```kotlin
@@ -106,6 +109,21 @@ class MainActivity: RxMviView<MainState, MainViewModel>() {
         if(state.text.length > 4) {
             editTextView.error = "The text is too long"
         }
+    }
+}
+```
+
+#### Store
+
+Finally, let's provide a store to the app using Hilt.
+
+```kotlin
+@Module
+@InstallIn(ApplicationComponent::class)
+class MainModule {
+    @Provides
+    fun provideStore(): Store<MainState> {
+        return createStore(MainReducer(), MainState(), middlewares(RxMviLogger()))
     }
 }
 ```
@@ -156,6 +174,7 @@ sealed class Effects: Effect {
 #### Middleware
 
 After that, it's time to add a middleware.
+
 > Middleware provides a way to interact with actions that have been dispatched to the store 
 > before they reach the store's reducer.
 
@@ -183,7 +202,7 @@ class LoadingPosts(
 
 #### Reducer
 
-Now, let's add a reducer again.
+Next, let's add a reducer again.
 
 ```kotlin
 class PostsReducer: Reducer<PostsState> {
@@ -268,6 +287,27 @@ class PostsActivity : RxMviView<PostsState, PostsViewModel>() {
     }
 }
 ```
+
+#### Store
+
+Lastly, let's provide a store to the app.
+
+```kotlin
+@Module
+@InstallIn(ApplicationComponent::class)
+class PostsModule {
+    
+    /*...*/
+
+    @Provides
+    fun providesStore(typicodeAPI: TypicodeAPI): Store<PostsState> {
+        return createStore(
+            PostsReducer(), PostsState(), middlewares(LoadingPosts(typicodeAPI, PostMapper()))
+        )
+    }
+}
+```
+
 #### Link 
 
 A completed demo app [here](demo/demoapp2).
@@ -275,15 +315,17 @@ A completed demo app [here](demo/demoapp2).
 
 ### Logging
 
-You can enable logging by passing an instance of RxMviLogger to the store at the initialization stage.
+You can enable logging by passing an instance of [RxMviLogger](rxmvi/src/main/java/com/maximcode/rxmvi/logger/RxMviLogger.kt) to the store at the initialization stage.
 
 ```kootlin
  createStore(Reducer(), State(), middlewares(RxMviLogger()))
 ```
 
-Logs:
+#### Logs Example:
 
-```
+```console
+I/rxMvi-logger: ️action type = Calculating; current state = { CounterState(isCalculating=true, isHintDisplayed=false, result=0) }
+I/rxMvi-logger: ️action type = Increment; current state = { CounterState(isCalculating=true, isHintDisplayed=false, result=0) }
 ```
 
 
