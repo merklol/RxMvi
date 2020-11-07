@@ -21,30 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.maximcode.demoapp4.main
 
-import android.os.Bundle
-import androidx.activity.viewModels
-import com.jakewharton.rxbinding4.widget.textChanges
-import com.maximcode.demoapp4.R
-import com.maximcode.rxmvi.view.RxMviView
-import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.activity_main.*
+package com.maximcode.rxmvi.utils
 
-@AndroidEntryPoint
-class MainActivity: RxMviView<MainState, MainViewModel>() {
-    override val viewModel: MainViewModel by viewModels()
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.disposables.Disposable
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        viewModel.validateText(editTextView.textChanges())
-
-    }
-
-    override fun render(state: MainState) {
-        if(state.text.length > 4) {
-            editTextView.error = "The text is too long"
-        }
-    }
+public operator fun CompositeDisposable.plusAssign(disposable: Disposable) {
+    this.add(disposable)
 }

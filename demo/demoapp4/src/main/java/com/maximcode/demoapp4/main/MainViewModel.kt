@@ -25,6 +25,7 @@ package com.maximcode.demoapp4.main
 
 import androidx.hilt.lifecycle.ViewModelInject
 import com.maximcode.rxmvi.core.store.Store
+import com.maximcode.rxmvi.utils.plusAssign
 import com.maximcode.rxmvi.view.RxMviViewModel
 import io.reactivex.rxjava3.core.Observable
 
@@ -32,6 +33,6 @@ class MainViewModel @ViewModelInject constructor(
     private val store: Store<MainState>): RxMviViewModel<MainState>(store) {
 
     fun validateText(uiEvent: Observable<CharSequence>) {
-        disposingActions.add(store.dispatch(uiEvent) { MainAction.ValidateText(it.toString()) })
+        disposingActions += store.dispatch(uiEvent) { MainAction.ValidateText(it.toString()) }
     }
 }

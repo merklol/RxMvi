@@ -32,8 +32,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
 
 @AndroidEntryPoint
-class MainActivity : RxMviView<MainState>() {
-    override val viewModel by viewModels<MainViewModel>()
+class MainActivity : RxMviView<MainState, MainViewModel>() {
+    override val viewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

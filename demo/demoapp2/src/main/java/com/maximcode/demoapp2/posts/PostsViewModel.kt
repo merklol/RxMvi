@@ -25,6 +25,7 @@ package com.maximcode.demoapp2.posts
 
 import androidx.hilt.lifecycle.ViewModelInject
 import com.maximcode.rxmvi.core.store.Store
+import com.maximcode.rxmvi.utils.plusAssign
 import com.maximcode.rxmvi.view.RxMviViewModel
 
 class PostsViewModel @ViewModelInject constructor(
@@ -33,7 +34,7 @@ class PostsViewModel @ViewModelInject constructor(
     fun loadPosts() {
         val loaded = store.currentState.loaded
         if(!loaded) {
-            disposingActions.add(store.dispatch { Actions.Load })
+            disposingActions += store.dispatch { Actions.Load }
         }
     }
 }

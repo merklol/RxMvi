@@ -29,6 +29,7 @@ import com.maximcode.rxmvi.core.Middleware
 import com.maximcode.rxmvi.core.Reducer
 import com.jakewharton.rxrelay3.BehaviorRelay
 import com.jakewharton.rxrelay3.PublishRelay
+import com.maximcode.rxmvi.utils.plusAssign
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
@@ -69,7 +70,7 @@ public class StoreImpl<State>(
 
     override fun bind(view: View<State>) {
         bindingDisposable = CompositeDisposable()
-        bindingDisposable.addAll(state.subscribe(view::render))
+        bindingDisposable += state.subscribe(view::render)
     }
 
     override fun unbind(): Unit = bindingDisposable.dispose()
