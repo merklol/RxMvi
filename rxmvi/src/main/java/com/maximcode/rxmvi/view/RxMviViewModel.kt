@@ -35,6 +35,10 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable
  *
  */
 public abstract class RxMviViewModel<State>(private val store: Store<State>): ViewModel() {
+    /**
+     * A disposable container that holds onto all actions that are going to be disposed
+     * when ViewModel is no longer used and will be destroyed.
+     */
     public val disposingActions: CompositeDisposable = CompositeDisposable()
 
     /**
