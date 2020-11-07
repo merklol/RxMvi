@@ -35,8 +35,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_posts.*
 
 @AndroidEntryPoint
-class PostsActivity : RxMviView<PostsState>() {
+class PostsActivity : RxMviView<PostsState, PostsViewModel>() {
     override val viewModel: PostsViewModel by viewModels()
+
     private val adapter = RVAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {

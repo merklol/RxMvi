@@ -29,8 +29,8 @@ import androidx.appcompat.app.AppCompatActivity
  * A base implementation of the [View] interface that bind and unbind it to the store. Note:
  * All Views should extend this to get RxMvi functionality.
  */
-public abstract class RxMviView<State>: AppCompatActivity(), View<State> {
-    public abstract val viewModel: RxMviViewModel<State>
+public abstract class RxMviView<State, ViewModel: RxMviViewModel<State>>: AppCompatActivity(), View<State> {
+    public abstract val viewModel: ViewModel
 
     /**
      * Renders the state of the store to the UI
