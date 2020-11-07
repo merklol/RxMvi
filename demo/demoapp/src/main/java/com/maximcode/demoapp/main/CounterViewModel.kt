@@ -30,7 +30,7 @@ import com.maximcode.rxmvi.view.RxMviViewModel
 import io.reactivex.rxjava3.core.Observable
 
 class CounterViewModel @ViewModelInject constructor(
-    val store: Store<CounterState>): RxMviViewModel<CounterState>(store) {
+    private val store: Store<CounterState>): RxMviViewModel<CounterState>(store) {
 
     fun incrementCounter(uiEvent: Observable<Unit>) {
         disposingActions += store.dispatch(uiEvent){ MainAction.Increment(1) }
@@ -41,7 +41,7 @@ class CounterViewModel @ViewModelInject constructor(
     }
 
     fun showHint(uiEvent: Observable<Unit>) {
-        store.dispatch(uiEvent) {
+        disposingActions += store.dispatch(uiEvent) {
             val isHintDisplayed = store.currentState.isHintDisplayed
             if(isHintDisplayed) MainAction.HideHint else MainAction.ShowHint
         }

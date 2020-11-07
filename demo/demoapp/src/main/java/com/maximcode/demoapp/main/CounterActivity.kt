@@ -39,17 +39,19 @@ class CounterActivity : RxMviView<CounterState, CounterViewModel>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_counter)
-
-        viewModel.incrementCounter(incBtnView.clicks())
-        viewModel.decrementCounter(decBtnView.clicks())
-        viewModel.showHint(showHintBtnView.clicks())
-
+        bindActions()
     }
 
     override fun render(state: CounterState) {
         renderCounter(state)
         renderHint(state)
 
+    }
+
+    private fun bindActions() {
+        viewModel.incrementCounter(incBtnView.clicks())
+        viewModel.decrementCounter(decBtnView.clicks())
+        viewModel.showHint(showHintBtnView.clicks())
     }
 
     private fun renderHint(state: CounterState) {
