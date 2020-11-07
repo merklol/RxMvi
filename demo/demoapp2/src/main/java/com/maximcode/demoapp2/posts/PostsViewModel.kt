@@ -30,12 +30,10 @@ import com.maximcode.rxmvi.view.RxMviViewModel
 class PostsViewModel @ViewModelInject constructor(
     private val store: Store<PostsState>): RxMviViewModel<PostsState>(store) {
 
-    private var postsLoaded = false
-
     fun loadPosts() {
-       if(!postsLoaded) {
-           disposingActions.add(store.dispatch { Actions.Load })
-           postsLoaded = true
-       }
+        val loaded = store.currentState.loaded
+        if(!loaded) {
+            disposingActions.add(store.dispatch { Actions.Load })
+        }
     }
 }

@@ -38,6 +38,7 @@ class PostsReducer: Reducer<PostsState> {
             )
 
             is Effects.Failed -> state.copy(
+                loaded = true,
                 loading = false,
                 error = action.error
             )

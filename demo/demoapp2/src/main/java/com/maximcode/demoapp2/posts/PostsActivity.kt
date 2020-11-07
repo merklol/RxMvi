@@ -52,6 +52,9 @@ class PostsActivity : RxMviView<PostsState>() {
         when {
             state.loading -> progressView.visibility = View.VISIBLE
             state.loaded -> {
+                if(state.error != null) {
+                    Toast.makeText(this, state.error.message, Toast.LENGTH_SHORT).show()
+                }
                 progressView.visibility = View.GONE
                 adapter.addPosts(state.posts)
             }
