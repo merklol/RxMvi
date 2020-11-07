@@ -18,7 +18,9 @@ allprojects {
     }
 }
 ```
+
 Add the dependency to module build.gradle
+
 ```groovy
 implementation 'com.maximcode:RxMvi:x.x.x'
 ```
@@ -35,6 +37,7 @@ A basic example how to use RxMvi in your project:
 #### State
 
 First of all, let's add a state class. 
+
 ```kotlin
 data class MainState(val text: String = "")
 ```
@@ -43,6 +46,7 @@ data class MainState(val text: String = "")
 
 Then, let's add a sealed class to define the actions of our app.
 > Note: All actions should implement the Action interface.
+
 ```kotlin
 sealed class MainAction: Action {
     class ValidateText(val payload: String) : MainAction()
@@ -52,6 +56,7 @@ sealed class MainAction: Action {
 #### Reducer
 
 Now, let's add our reducer by implementing the Reducer<**State**> interface.
+
 ```kotlin
 class MainReducer: Reducer<MainState> {
     override fun reduce(state: MainState, action: Action): MainState {
@@ -69,6 +74,7 @@ class MainReducer: Reducer<MainState> {
 
 Then, we add a ViewModel. 
 > Note: All ViewModels should extend RxMviViewModel<**State**> to get RxMvi functionality.
+
 ```kotlin
 class MainViewModel @ViewModelInject constructor(
     private val store: Store<MainState>): RxMviViewModel<MainState>(store) {
@@ -83,6 +89,7 @@ class MainViewModel @ViewModelInject constructor(
 
 Finally, let's add our view(*Activity/Fragment/etc*).
 > Note: All Views should extend RxMviView<**State, ViewModel: RxMviViewModel<State>**> to get RxMvi functionality.
+
 ```kotlin
 @AndroidEntryPoint
 class MainActivity: RxMviView<MainState, MainViewModel>() {
@@ -107,13 +114,14 @@ class MainActivity: RxMviView<MainState, MainViewModel>() {
 
 A completed demo app [here](demo/demoapp4).
 
-#### Example 2
+### Example 2
 
 Using Middleware
 
 #### State
 
 Let's add a state class again. 
+
 ```kotlin
 data class PostsState(
     val loading: Boolean = false,
@@ -126,6 +134,7 @@ data class PostsState(
 #### Action
 
 Then, define the actions of the app.
+
 ```kotlin
 sealed class Actions: Action {
     object Load: Actions()
@@ -135,6 +144,7 @@ sealed class Actions: Action {
 #### Effect
 
 Now, we need to define side effects.
+
 ```kotlin
 sealed class Effects: Effect {
     object Loading: Effects()
@@ -146,7 +156,9 @@ sealed class Effects: Effect {
 #### Middleware
 
 After that, it's time to add a middleware.
-> Middleware provides a way to interact with actions that have been dispatched to the store before they reach the store's reducer.
+> Middleware provides a way to interact with actions that have been dispatched to the store 
+> before they reach the store's reducer.
+
 ```kotlin
 class LoadingPosts(
     private val typicodeAPI: TypicodeAPI,
@@ -172,6 +184,7 @@ class LoadingPosts(
 #### Reducer
 
 Now, let's add a reducer again.
+
 ```kotlin
 class PostsReducer: Reducer<PostsState> {
     override fun reduce(state: PostsState, action: Action): PostsState {
@@ -201,6 +214,7 @@ class PostsReducer: Reducer<PostsState> {
 #### ViewModel
 
 Then, let's add a ViewModel. 
+
 ```kotlin
 class PostsViewModel @ViewModelInject constructor(
     private val store: Store<PostsState>): RxMviViewModel<PostsState>(store) {
@@ -217,6 +231,7 @@ class PostsViewModel @ViewModelInject constructor(
 #### View
 
 Then, add a view.
+
 ```kotlin
 @AndroidEntryPoint
 class PostsActivity : RxMviView<PostsState, PostsViewModel>() {
@@ -261,18 +276,22 @@ A completed demo app [here](demo/demoapp2).
 ### Logging
 
 You can enable logging by passing an instance of RxMviLogger to the store at the initialization stage.
+
 ```kootlin
  createStore(Reducer(), State(), middlewares(RxMviLogger()))
 ```
 
 Logs:
+
 ```
 ```
 
 
 #### Demo Apps
+
 You can find all demo apps over [here](demo).
 
 ### Contributing
+
 If you like this project, or are using it in your app, consider starring the repository to show your support. 
 Contributions from the community are very welcome.
