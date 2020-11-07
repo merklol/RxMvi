@@ -28,18 +28,18 @@ implementation 'com.maximcode:RxMvi:x.x.x'
 > Note: All examples are using [Hilt](https://dagger.dev/hilt/) for dependency injection,
 > and the 'by viewModels()' Kotlin property delegate from [Android KTX](https://developer.android.com/kotlin/ktx).
 
-##### Example 1
+### Example 1
 
 A basic example how to use RxMvi in your project:
 
-##### State
+#### State
 
 First of all, let's add a state class. 
 ```kotlin
 data class MainState(val text: String = "")
 ```
 
-##### Action
+#### Action
 
 Then, let's add a sealed class to define the actions of our app.
 > Note: All actions should implement the Action interface.
@@ -49,7 +49,7 @@ sealed class MainAction: Action {
 }
 ```
 
-##### Reducer
+#### Reducer
 
 Now, let's add our reducer by implementing the Reducer<**State**> interface.
 ```kotlin
@@ -65,7 +65,7 @@ class MainReducer: Reducer<MainState> {
 }
 ```
 
-##### ViewModel
+#### ViewModel
 
 Then, we add a ViewModel. 
 > Note: All ViewModels should extend RxMviViewModel<**State**> to get RxMvi functionality.
@@ -79,7 +79,7 @@ class MainViewModel @ViewModelInject constructor(
 }
 ```
 
-##### View
+#### View
 
 Finally, let's add our view(*Activity/Fragment/etc*).
 > Note: All Views should extend RxMviView<**State, ViewModel: RxMviViewModel<State>**> to get RxMvi functionality.
@@ -111,7 +111,7 @@ A completed demo app [here](demo/demoapp4).
 
 Using Middleware
 
-##### State
+#### State
 
 Let's add a state class again. 
 ```kotlin
@@ -123,7 +123,7 @@ data class PostsState(
 )
 ```
 
-##### Action
+#### Action
 
 Then, define the actions of the app.
 ```kotlin
@@ -132,7 +132,7 @@ sealed class Actions: Action {
 }
 ```
 
-##### Effect
+#### Effect
 
 Now, we need to define side effects.
 ```kotlin
@@ -143,7 +143,7 @@ sealed class Effects: Effect {
 }
 ```
 
-##### Middleware
+#### Middleware
 
 After that, it's time to add a middleware.
 > Middleware provides a way to interact with actions that have been dispatched to the store before they reach the store's reducer.
@@ -169,7 +169,7 @@ class LoadingPosts(
 }
 ```
 
-##### Reducer
+#### Reducer
 
 Now, let's add a reducer again.
 ```kotlin
@@ -198,7 +198,7 @@ class PostsReducer: Reducer<PostsState> {
 }
 ```
 
-##### ViewModel
+#### ViewModel
 
 Then, let's add a ViewModel. 
 ```kotlin
@@ -214,7 +214,7 @@ class PostsViewModel @ViewModelInject constructor(
 }
 ```
 
-##### View
+#### View
 
 Then, add a view.
 ```kotlin
@@ -258,7 +258,7 @@ class PostsActivity : RxMviView<PostsState, PostsViewModel>() {
 A completed demo app [here](demo/demoapp2).
 
 
-#### Logging
+### Logging
 
 You can enable logging by passing an instance of RxMviLogger to the store at the initialization stage.
 ```kootlin
