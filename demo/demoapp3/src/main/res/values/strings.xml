@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">DemoApp3</string>
+    <string name="btn_text">Show Message</string>
 </resources>

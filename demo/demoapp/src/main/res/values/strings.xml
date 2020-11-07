@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">DemoApp</string>
+    <string name="increment_btn">+</string>
+    <string name="decrement_btn">-</string>
+    <string name="show_hint_btn">Show Hint</string>
+    <string name="hide_hint_btn">Hide Hint</string>
+    <string name="hint">Click the increment or the decrement button</string>
+    <string name="counter_value">0</string>
 </resources>
