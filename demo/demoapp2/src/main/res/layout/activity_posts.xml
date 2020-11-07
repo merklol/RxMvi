@@ -26,4 +26,17 @@
             app:layout_constraintTop_toTopOf="parent"
             android:visibility="gone"/>
 
+    <TextView
+            android:id="@+id/errorView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:textSize="18sp"
+            android:textAlignment="center"
+            android:layout_margin="16dp"
+            android:visibility="gone"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

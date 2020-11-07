@@ -25,7 +25,6 @@ package com.maximcode.demoapp2.posts
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.maximcode.demoapp2.R
@@ -53,14 +52,11 @@ class PostsActivity : RxMviView<PostsState>() {
             state.loading -> progressView.visibility = View.VISIBLE
             state.loaded -> {
                 if(state.error != null) {
-                    Toast.makeText(this, state.error.message, Toast.LENGTH_SHORT).show()
+                    errorView.text = state.error.message
+                    errorView.visibility = View.VISIBLE
                 }
                 progressView.visibility = View.GONE
                 adapter.addPosts(state.posts)
-            }
-            state.error != null -> {
-                progressView.visibility = View.GONE
-                Toast.makeText(this, state.error.message, Toast.LENGTH_SHORT).show()
             }
         }
     }

@@ -34,7 +34,6 @@ public abstract class RxMviView<State>: AppCompatActivity(), View<State> {
 
     /**
      * Renders the state of the store to the UI
-     *
      */
     abstract override fun render(state: State)
 
