@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">DemoApp4</string>
+    <string name="hint_text">Enter Text</string>
 </resources>

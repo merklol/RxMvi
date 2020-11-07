@@ -21,29 +21,19 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.maximcode.rxmvi.view
+package com.maximcode.demoapp3.main
 
-import androidx.appcompat.app.AppCompatActivity
+import androidx.hilt.lifecycle.ViewModelInject
+import com.maximcode.rxmvi.core.store.Store
+import com.maximcode.rxmvi.view.RxMviViewModel
+import io.reactivex.rxjava3.core.Observable
 
-/**
- * A base implementation of the [View] interface that bind and unbind it to the store. Note:
- * All Views should extend this to get RxMvi functionality.
- */
-public abstract class RxMviView<State>: AppCompatActivity(), View<State> {
-    public abstract val viewModel: RxMviViewModel<State>
+class MainViewModel@ViewModelInject constructor(
+    private val store: Store<MainState>): RxMviViewModel<MainState>(store) {
 
-    /**
-     * Renders the state of the store to the UI
-     */
-    abstract override fun render(state: State)
-
-    override fun onPause() {
-        super.onPause()
-        viewModel.unbind()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        viewModel.bind(this)
+    fun showMessage(uiEvent: Observable<Unit>) {
+        disposingActions.add(store.dispatch(uiEvent) {
+            MainAction.ShowMessage("Hello world!")
+        })
     }
 }

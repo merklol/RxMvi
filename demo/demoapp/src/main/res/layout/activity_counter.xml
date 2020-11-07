@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".main.CounterActivity">
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/counterGroup"
+        app:constraint_referenced_ids="counterView, incBtnView, decBtnView, showHintBtnView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/hintView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/counterView"
+        android:textSize="14sp"
+        android:textAlignment="center"
+        android:text="@string/hint"/>
+
+    <TextView
+            android:id="@+id/counterView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/incBtnView"
+            app:layout_constraintRight_toRightOf="parent"
+            android:text="@string/counter_value"
+            android:textSize="42sp"
+            android:textAlignment="center"
+            android:textColor="@android:color/black"/>
+
+    <Button
+            android:id="@+id/incBtnView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toStartOf="@+id/decBtnView"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
+            android:text="@string/increment_btn"/>
+    <Button
+            android:id="@+id/decBtnView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/incBtnView"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:text="@string/decrement_btn"/>
+
+    <Button
+            android:id="@+id/showHintBtnView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/show_hint_btn"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/decBtnView"/>
+
+    <ProgressBar
+        android:id="@+id/progressView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:visibility="gone"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

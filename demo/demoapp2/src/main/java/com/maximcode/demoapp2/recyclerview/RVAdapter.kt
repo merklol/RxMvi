@@ -21,29 +21,40 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.maximcode.rxmvi.view
+package com.maximcode.demoapp2.recyclerview
 
-import androidx.appcompat.app.AppCompatActivity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
+import com.maximcode.demoapp2.R
+import com.maximcode.demoapp2.dto.Post
+import kotlinx.android.synthetic.main.recyclerview_item.view.*
 
-/**
- * A base implementation of the [View] interface that bind and unbind it to the store. Note:
- * All Views should extend this to get RxMvi functionality.
- */
-public abstract class RxMviView<State>: AppCompatActivity(), View<State> {
-    public abstract val viewModel: RxMviViewModel<State>
+class RVAdapter(private val posts: MutableList<Post> = mutableListOf()): RecyclerView.Adapter<RVAdapter.Holder>() {
 
-    /**
-     * Renders the state of the store to the UI
-     */
-    abstract override fun render(state: State)
-
-    override fun onPause() {
-        super.onPause()
-        viewModel.unbind()
+    class Holder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        fun bind(post: Post) {
+            itemView.titleView.text = post.title
+            itemView.bodyView.text = post.body
+        }
     }
 
-    override fun onResume() {
-        super.onResume()
-        viewModel.bind(this)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
+        return Holder(
+            LayoutInflater.from(parent.context)
+                .inflate(R.layout.recyclerview_item, parent, false)
+        )
+    }
+
+    override fun onBindViewHolder(holder: Holder, position: Int) {
+        holder.bind(posts[position])
+    }
+
+    override fun getItemCount() = posts.size
+
+    fun addPosts(data: List<Post>) {
+        posts.addAll(data)
+        notifyItemRangeInserted(0, data.size - 1)
     }
 }

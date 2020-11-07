@@ -21,29 +21,30 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.maximcode.rxmvi.view
+package com.maximcode.demoapp4.main
 
-import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import androidx.activity.viewModels
+import com.jakewharton.rxbinding4.widget.textChanges
+import com.maximcode.demoapp4.R
+import com.maximcode.rxmvi.view.RxMviView
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.activity_main.*
 
-/**
- * A base implementation of the [View] interface that bind and unbind it to the store. Note:
- * All Views should extend this to get RxMvi functionality.
- */
-public abstract class RxMviView<State>: AppCompatActivity(), View<State> {
-    public abstract val viewModel: RxMviViewModel<State>
+@AndroidEntryPoint
+class MainActivity: RxMviView<MainState>() {
+    override val viewModel by viewModels<MainViewModel>()
 
-    /**
-     * Renders the state of the store to the UI
-     */
-    abstract override fun render(state: State)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        viewModel.validateText(editTextView.textChanges())
 
-    override fun onPause() {
-        super.onPause()
-        viewModel.unbind()
     }
 
-    override fun onResume() {
-        super.onResume()
-        viewModel.bind(this)
+    override fun render(state: MainState) {
+        if(state.text.length > 4) {
+            editTextView.error = "The text is too long"
+        }
     }
 }

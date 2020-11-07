@@ -21,29 +21,27 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.maximcode.rxmvi.view
+package com.maximcode.demoapp.models
 
-import androidx.appcompat.app.AppCompatActivity
+import com.maximcode.rxmvi.core.Middleware
+import com.maximcode.rxmvi.core.actions.Action
+import com.maximcode.demoapp.main.MainEffect
+import com.maximcode.demoapp.main.MainAction
+import com.maximcode.demoapp.main.CounterState
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Observable
+import java.util.concurrent.TimeUnit
 
-/**
- * A base implementation of the [View] interface that bind and unbind it to the store. Note:
- * All Views should extend this to get RxMvi functionality.
- */
-public abstract class RxMviView<State>: AppCompatActivity(), View<State> {
-    public abstract val viewModel: RxMviViewModel<State>
-
-    /**
-     * Renders the state of the store to the UI
-     */
-    abstract override fun render(state: State)
-
-    override fun onPause() {
-        super.onPause()
-        viewModel.unbind()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        viewModel.bind(this)
+class IncrementMiddleware: Middleware<CounterState> {
+    override fun bind(state: Observable<CounterState>, actions: Observable<Action>): Observable<Action> {
+        return actions.ofType(MainAction.Increment::class.java)
+            .withLatestFrom(state) { action, currentState -> action to currentState }
+            .flatMap { (action, state) ->
+                Observable.just(action.value)
+                    .delay(5, TimeUnit.SECONDS)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .map<MainEffect> { value -> MainEffect.IncrementSuccess(state.result + value) }
+                    .startWith(Observable.just(MainEffect.Calculating))
+            }
     }
 }

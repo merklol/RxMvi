@@ -21,29 +21,22 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.maximcode.rxmvi.view
+package com.maximcode.demoapp3.di
 
-import androidx.appcompat.app.AppCompatActivity
+import com.maximcode.demoapp3.main.MainState
+import com.maximcode.demoapp3.models.MainReducer
+import com.maximcode.rxmvi.core.store.Store
+import com.maximcode.rxmvi.core.store.createStore
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ApplicationComponent
 
-/**
- * A base implementation of the [View] interface that bind and unbind it to the store. Note:
- * All Views should extend this to get RxMvi functionality.
- */
-public abstract class RxMviView<State>: AppCompatActivity(), View<State> {
-    public abstract val viewModel: RxMviViewModel<State>
-
-    /**
-     * Renders the state of the store to the UI
-     */
-    abstract override fun render(state: State)
-
-    override fun onPause() {
-        super.onPause()
-        viewModel.unbind()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        viewModel.bind(this)
+@Module
+@InstallIn(ApplicationComponent::class)
+class AppModule {
+    @Provides
+    fun provideStore(): Store<MainState> {
+        return createStore(MainReducer(), MainState())
     }
 }

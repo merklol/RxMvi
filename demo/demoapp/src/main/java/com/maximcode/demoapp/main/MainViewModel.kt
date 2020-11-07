@@ -21,29 +21,28 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.maximcode.rxmvi.view
+package com.maximcode.demoapp.main
 
-import androidx.appcompat.app.AppCompatActivity
+import androidx.hilt.lifecycle.ViewModelInject
+import com.maximcode.rxmvi.core.store.Store
+import com.maximcode.rxmvi.view.RxMviViewModel
+import io.reactivex.rxjava3.core.Observable
 
-/**
- * A base implementation of the [View] interface that bind and unbind it to the store. Note:
- * All Views should extend this to get RxMvi functionality.
- */
-public abstract class RxMviView<State>: AppCompatActivity(), View<State> {
-    public abstract val viewModel: RxMviViewModel<State>
+class MainViewModel @ViewModelInject constructor(
+    val store: Store<CounterState>): RxMviViewModel<CounterState>(store) {
 
-    /**
-     * Renders the state of the store to the UI
-     */
-    abstract override fun render(state: State)
-
-    override fun onPause() {
-        super.onPause()
-        viewModel.unbind()
+    fun incrementCounter(uiEvent: Observable<Unit>) {
+        disposingActions.add(store.dispatch(uiEvent){ MainAction.Increment(1) })
     }
 
-    override fun onResume() {
-        super.onResume()
-        viewModel.bind(this)
+    fun decrementCounter(uiEvent: Observable<Unit>) {
+        disposingActions.add(store.dispatch(uiEvent){ MainAction.Decrement(1) })
+    }
+
+    fun showHint(uiEvent: Observable<Unit>) {
+        store.dispatch(uiEvent) {
+            val isHintDisplayed = store.currentState.isHintDisplayed
+            if(isHintDisplayed) MainAction.HideHint else MainAction.ShowHint
+        }
     }
 }

@@ -21,29 +21,20 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.maximcode.rxmvi.view
+package com.maximcode.demoapp4.models
 
-import androidx.appcompat.app.AppCompatActivity
+import com.maximcode.demoapp4.main.MainAction
+import com.maximcode.demoapp4.main.MainState
+import com.maximcode.rxmvi.core.Reducer
+import com.maximcode.rxmvi.core.actions.Action
 
-/**
- * A base implementation of the [View] interface that bind and unbind it to the store. Note:
- * All Views should extend this to get RxMvi functionality.
- */
-public abstract class RxMviView<State>: AppCompatActivity(), View<State> {
-    public abstract val viewModel: RxMviViewModel<State>
-
-    /**
-     * Renders the state of the store to the UI
-     */
-    abstract override fun render(state: State)
-
-    override fun onPause() {
-        super.onPause()
-        viewModel.unbind()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        viewModel.bind(this)
+class MainReducer: Reducer<MainState> {
+    override fun reduce(state: MainState, action: Action): MainState {
+        return when(action) {
+            is MainAction.ValidateText -> state.copy(
+                text = action.payload
+            )
+            else -> state
+        }
     }
 }
