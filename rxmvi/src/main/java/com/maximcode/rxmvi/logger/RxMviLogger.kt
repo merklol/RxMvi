@@ -21,29 +21,34 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.maximcode.demoapp.main
+package com.maximcode.rxmvi.logger
 
-import androidx.hilt.lifecycle.ViewModelInject
-import com.maximcode.rxmvi.core.store.Store
-import com.maximcode.rxmvi.utils.plusAssign
-import com.maximcode.rxmvi.view.RxMviViewModel
+import android.util.Log
+import com.maximcode.rxmvi.BuildConfig
+import com.maximcode.rxmvi.core.actions.Action
+import com.maximcode.rxmvi.core.Middleware
 import io.reactivex.rxjava3.core.Observable
 
-class CounterViewModel @ViewModelInject constructor(
-    private val store: Store<CounterState>): RxMviViewModel<CounterState>(store) {
-
-    fun incrementCounter(uiEvent: Observable<Unit>) {
-        disposingActions += store.dispatch(uiEvent){ MainAction.Increment(1) }
+/**
+ *  Creates a simple logger that logs all actions and the current state to the console in debug mode.
+ */
+public class RxMviLogger<State>: Middleware<State> {
+    override fun bind(state: Observable<State>, actions: Observable<Action>): Observable<Action> {
+        return actions.ofType(Action::class.java)
+            .withLatestFrom(state) { action, currentState -> action to currentState }.flatMap { (action, state) ->
+                logInfo(message = "️action type = ${action::class.java.simpleName}; current state = { $state }")
+                Observable.empty()
+            }
     }
 
-    fun decrementCounter(uiEvent: Observable<Unit>) {
-        disposingActions += store.dispatch(uiEvent){ MainAction.Decrement(1) }
+    private fun logInfo(onlyInDebugMode: Boolean = true, message: String) {
+        log(onlyInDebugMode) { Log.i("rxMvi-logger", message) }
     }
 
-    fun showHint(uiEvent: Observable<Unit>) {
-        disposingActions += store.dispatch(uiEvent) {
-            val isHintDisplayed = store.currentState.isHintDisplayed
-            if(isHintDisplayed) MainAction.HideHint else MainAction.ShowHint
+    private inline fun log(onlyInDebugMode: Boolean, logger: () -> Unit) {
+        when {
+            onlyInDebugMode && BuildConfig.DEBUG -> logger()
+            !onlyInDebugMode -> logger()
         }
     }
 }
