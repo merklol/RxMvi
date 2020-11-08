@@ -1,7 +1,7 @@
 ## RxMvi
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE.md)
-[![Version]()]()
 [![Language](https://img.shields.io/badge/language%3A-Kotlin-blue)](https://kotlinlang.org)
+
 
 ### What's this?
 
