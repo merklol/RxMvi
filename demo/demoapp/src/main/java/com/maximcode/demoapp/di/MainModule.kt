@@ -29,6 +29,7 @@ import com.maximcode.rxmvi.core.store.createStore
 import com.maximcode.demoapp.main.CounterState
 import com.maximcode.demoapp.models.CounterReducer
 import com.maximcode.demoapp.models.IncrementMiddleware
+import com.maximcode.rxmvi.logger.RxMviLogger
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -39,6 +40,6 @@ import dagger.hilt.android.components.ApplicationComponent
 class MainModule {
     @Provides
     fun provideStore(): Store<CounterState> {
-        return createStore(CounterReducer(), CounterState(), middlewares(IncrementMiddleware()))
+        return createStore(CounterReducer(), CounterState(), middlewares(IncrementMiddleware(), RxMviLogger()))
     }
 }
