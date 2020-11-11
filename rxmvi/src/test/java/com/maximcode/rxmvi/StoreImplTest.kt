@@ -38,7 +38,7 @@ import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Before
 import org.junit.Test
 
-internal class TestStoreImpl {
+internal class StoreImplTest {
     @MockK
     lateinit var reducer: Reducer<TestState>
 
