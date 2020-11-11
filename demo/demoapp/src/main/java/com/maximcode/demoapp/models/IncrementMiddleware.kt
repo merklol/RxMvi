@@ -38,7 +38,7 @@ class IncrementMiddleware: Middleware<CounterState> {
             .withLatestFrom(state) { action, currentState -> action to currentState }
             .flatMap { (action, state) ->
                 Observable.just(action.value)
-                    .delay(5, TimeUnit.SECONDS)
+                    .delay(3, TimeUnit.SECONDS)
                     .observeOn(AndroidSchedulers.mainThread())
                     .map<MainEffect> { value -> MainEffect.IncrementSuccess(state.result + value) }
                     .startWith(Observable.just(MainEffect.Calculating))
