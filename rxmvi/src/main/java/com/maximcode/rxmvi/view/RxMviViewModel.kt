@@ -26,6 +26,7 @@ package com.maximcode.rxmvi.view
 import androidx.lifecycle.ViewModel
 import com.maximcode.rxmvi.core.store.Store
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.disposables.Disposable
 
 /**
  * Binds and unbinds a view from the store, release it when this ViewModel is no longer used,
@@ -39,25 +40,27 @@ public abstract class RxMviViewModel<State>(private val store: Store<State>): Vi
      * A disposable container that holds onto all actions that are going to be disposed
      * when ViewModel is no longer used and will be destroyed.
      */
-    public val disposingActions: CompositeDisposable = CompositeDisposable()
+    public abstract val disposables: CompositeDisposable
+
+    private var viewBinding: Disposable? = null
 
     /**
      * Binds a view to the store
      */
     public fun bind(view: View<State>) {
-        store.bind(view)
+        viewBinding = store.bind(view)
     }
 
     /**
      * Unbinds a view from the store
      */
     public fun unbind() {
-        store.unbind()
+        viewBinding?.dispose()
     }
 
     override fun onCleared() {
         super.onCleared()
-        disposingActions.dispose()
         store.release()
+        disposables.dispose()
     }
 }
