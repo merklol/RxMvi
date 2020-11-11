@@ -1,6 +1,7 @@
 ## RxMvi
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE.md)
 [![Language](https://img.shields.io/badge/language%3A-Kotlin-blue)](https://kotlinlang.org)
+[![Version](https://jitpack.io/v/merklol/RxMvi.svg)](https://jitpack.io/#merklol/RxMvi)
 
 
 ### What's this?
@@ -22,7 +23,7 @@ allprojects {
 Add the dependency to module build.gradle
 
 ```groovy
-implementation 'com.maximcode:RxMvi:x.x.x'
+implementation 'com.github.merklol:RxMvi:0.1'
 ```
 
 ### Usage
