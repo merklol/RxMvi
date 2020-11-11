@@ -23,6 +23,8 @@
  */
 package com.maximcode.rxmvi.core.store
 
+import com.jakewharton.rxrelay3.BehaviorRelay
+import com.jakewharton.rxrelay3.PublishRelay
 import com.maximcode.rxmvi.core.actions.Action
 import com.maximcode.rxmvi.view.View
 import io.reactivex.rxjava3.core.Observable
@@ -31,10 +33,16 @@ import io.reactivex.rxjava3.disposables.Disposable
 public interface Store<State> {
 
     /**
+     * Returns the current action of your application.
+     *
+     */
+    public val actions: PublishRelay<Action>
+
+    /**
      * Returns the current state of your application.
      *
      */
-    public val currentState: State
+    public val state: BehaviorRelay<State>
 
     /**
      * Releases the store.
@@ -44,12 +52,12 @@ public interface Store<State> {
     /**
      * Binds a view to the store.
      */
-    public fun bind(view: View<State>)
+    public fun bind(view: View<State>): Disposable
 
-    /**
-     * Unbinds a view from the store.
-     */
-    public fun unbind()
+//    /**
+//     * Unbinds a view from the store.
+//     */
+//    public fun unbind()
 
     /**
      * Dispatches an action to trigger a state change.
