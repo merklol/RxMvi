@@ -81,8 +81,10 @@ Then, we add a ViewModel.
 class MainViewModel @ViewModelInject constructor(
     private val store: Store<MainState>): RxMviViewModel<MainState>(store) {
 
+    override val disposables = CompositeDisposable()
+
     fun validateText(uiEvent: Observable<CharSequence>) {
-        disposingActions += store.dispatch(uiEvent) { MainAction.ValidateText(it.toString()) }
+        disposables += store.dispatch(uiEvent) { MainAction.ValidateText(it.toString()) }
     }
 }
 ```
@@ -238,10 +240,12 @@ Then, let's add a ViewModel.
 class PostsViewModel @ViewModelInject constructor(
     private val store: Store<PostsState>): RxMviViewModel<PostsState>(store) {
 
+    override val disposables = CompositeDisposable()
+
     fun loadPosts() {
-        val loaded = store.currentState.loaded
+        val (_, loaded) = store.state.value
         if(!loaded) {
-            disposingActions += store.dispatch { Actions.Load }
+            disposables += store.dispatch { Actions.Load }
         }
     }
 }
