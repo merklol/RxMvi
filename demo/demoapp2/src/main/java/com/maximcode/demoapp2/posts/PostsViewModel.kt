@@ -27,14 +27,17 @@ import androidx.hilt.lifecycle.ViewModelInject
 import com.maximcode.rxmvi.core.store.Store
 import com.maximcode.rxmvi.utils.plusAssign
 import com.maximcode.rxmvi.view.RxMviViewModel
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 class PostsViewModel @ViewModelInject constructor(
     private val store: Store<PostsState>): RxMviViewModel<PostsState>(store) {
 
+    override val disposables = CompositeDisposable()
+
     fun loadPosts() {
-        val loaded = store.currentState.loaded
+        val (_, loaded) = store.state.value
         if(!loaded) {
-            disposingActions += store.dispatch { Actions.Load }
+            disposables += store.dispatch { Actions.Load }
         }
     }
 }
