@@ -28,21 +28,24 @@ import com.maximcode.rxmvi.core.store.Store
 import com.maximcode.rxmvi.utils.plusAssign
 import com.maximcode.rxmvi.view.RxMviViewModel
 import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 class CounterViewModel @ViewModelInject constructor(
     private val store: Store<CounterState>): RxMviViewModel<CounterState>(store) {
 
+    override val disposables = CompositeDisposable()
+
     fun incrementCounter(uiEvent: Observable<Unit>) {
-        disposingActions += store.dispatch(uiEvent){ MainAction.Increment(1) }
+        disposables += store.dispatch(uiEvent){ MainAction.Increment(1) }
     }
 
     fun decrementCounter(uiEvent: Observable<Unit>) {
-        disposingActions += store.dispatch(uiEvent){ MainAction.Decrement(1) }
+        disposables += store.dispatch(uiEvent){ MainAction.Decrement(1) }
     }
 
     fun showHint(uiEvent: Observable<Unit>) {
-        disposingActions += store.dispatch(uiEvent) {
-            val isHintDisplayed = store.currentState.isHintDisplayed
+        disposables += store.dispatch(uiEvent) {
+            val (_, isHintDisplayed) = store.state.value
             if(isHintDisplayed) MainAction.HideHint else MainAction.ShowHint
         }
     }

@@ -21,51 +21,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.maximcode.rxmvi.core.store
 
-import com.jakewharton.rxrelay3.BehaviorRelay
-import com.jakewharton.rxrelay3.PublishRelay
-import com.maximcode.rxmvi.core.actions.Action
-import com.maximcode.rxmvi.view.View
-import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.disposables.Disposable
+package com.maximcode.demoapp.utils
 
-public interface Store<State> {
+import android.app.Activity
+import androidx.test.ext.junit.rules.ActivityScenarioRule
 
-    /**
-     * Returns the current action of your application.
-     *
-     */
-    public val actions: PublishRelay<Action>
-
-    /**
-     * Returns the current state of your application.
-     *
-     */
-    public val state: BehaviorRelay<State>
-
-    /**
-     * Releases the store.
-     */
-    public fun release()
-
-    /**
-     * Binds a view to the store.
-     */
-    public fun bind(view: View<State>): Disposable
-
-//    /**
-//     * Unbinds a view from the store.
-//     */
-//    public fun unbind()
-
-    /**
-     * Dispatches an action to trigger a state change.
-     */
-    public fun<T> dispatch(uiEvent: Observable<T>, action: (T) -> Action): Disposable
-
-    /**
-     * Dispatches an action to trigger a state change.
-     */
-    public fun dispatch( action: () -> Action): Disposable
+fun<T: Activity> getView(rule: ActivityScenarioRule<T>): T? {
+    var view: T? = null
+    rule.scenario.onActivity { view = it }
+    return view
 }

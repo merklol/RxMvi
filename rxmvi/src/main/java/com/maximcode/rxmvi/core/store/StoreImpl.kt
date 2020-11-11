@@ -29,7 +29,6 @@ import com.maximcode.rxmvi.core.Middleware
 import com.maximcode.rxmvi.core.Reducer
 import com.jakewharton.rxrelay3.BehaviorRelay
 import com.jakewharton.rxrelay3.PublishRelay
-import com.maximcode.rxmvi.utils.plusAssign
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
@@ -49,15 +48,13 @@ public class StoreImpl<State>(
     private val reducer: Reducer<State>, initialState: State,
     middlewares: List<Middleware<State>> = emptyList()) : Store<State> {
 
-    private lateinit var bindingDisposable: CompositeDisposable
-    private val initDisposable = CompositeDisposable()
-    private val state = BehaviorRelay.createDefault(initialState)
-    private val actions = PublishRelay.create<Action>()
+    private val disposable: CompositeDisposable = CompositeDisposable()
 
-    public override val currentState: State get() = state.value
+    override val state: BehaviorRelay<State> = BehaviorRelay.createDefault(initialState)
+    override val actions: PublishRelay<Action> = PublishRelay.create()
 
     init {
-        initDisposable.addAll(
+        disposable.addAll(
             actions.withLatestFrom(state) { action, state -> reducer.reduce(state, action) }
                 .distinctUntilChanged()
                 .subscribe(state::accept),
@@ -66,14 +63,9 @@ public class StoreImpl<State>(
         )
     }
 
-    override fun release(): Unit = initDisposable.dispose()
+    override fun bind(view: View<State>): Disposable = state.subscribe(view::render)
 
-    override fun bind(view: View<State>) {
-        bindingDisposable = CompositeDisposable()
-        bindingDisposable += state.subscribe(view::render)
-    }
-
-    override fun unbind(): Unit = bindingDisposable.dispose()
+    override fun release(): Unit = disposable.dispose()
 
     override fun<T> dispatch(uiEvent: Observable<T>, action: (T) -> Action): Disposable =
         uiEvent.map { action(it) }.subscribe(actions::accept)

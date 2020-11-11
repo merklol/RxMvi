@@ -21,51 +21,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.maximcode.rxmvi.core.store
+package com.maximcode.rxmvi
 
-import com.jakewharton.rxrelay3.BehaviorRelay
-import com.jakewharton.rxrelay3.PublishRelay
 import com.maximcode.rxmvi.core.actions.Action
-import com.maximcode.rxmvi.view.View
-import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.disposables.Disposable
 
-public interface Store<State> {
-
-    /**
-     * Returns the current action of your application.
-     *
-     */
-    public val actions: PublishRelay<Action>
-
-    /**
-     * Returns the current state of your application.
-     *
-     */
-    public val state: BehaviorRelay<State>
-
-    /**
-     * Releases the store.
-     */
-    public fun release()
-
-    /**
-     * Binds a view to the store.
-     */
-    public fun bind(view: View<State>): Disposable
-
-//    /**
-//     * Unbinds a view from the store.
-//     */
-//    public fun unbind()
-
-    /**
-     * Dispatches an action to trigger a state change.
-     */
-    public fun<T> dispatch(uiEvent: Observable<T>, action: (T) -> Action): Disposable
-
-    /**
-     * Dispatches an action to trigger a state change.
-     */
-    public fun dispatch( action: () -> Action): Disposable
+public sealed class TestActions: Action {
+    public object Action: TestActions()
+    public object Action2: TestActions()
 }
