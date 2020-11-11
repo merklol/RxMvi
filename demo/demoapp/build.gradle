@@ -32,6 +32,11 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
+    adbOptions {
+        installOptions '-g', '-r'
+    }
+
 }
 
 dependencies {
@@ -54,8 +59,14 @@ dependencies {
     implementation 'androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha02'
     kapt 'androidx.hilt:hilt-compiler:1.0.0-alpha02'
 
+    //Mockito
+    testImplementation "io.mockk:mockk:1.10.2"
+
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    androidTestImplementation "androidx.test.espresso:espresso-intents:3.3.0"
+    androidTestImplementation "androidx.test:runner:1.3.0"
+    androidTestImplementation "androidx.test:rules:1.3.0"
 
 }
