@@ -1,4 +1,7 @@
 ## RxMvi
+<img src="rxmvi_logo.png" alt="rxmvi-logo" width="300px" height="150px"/>
+<br>
+
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE.md)
 [![Language](https://img.shields.io/badge/language%3A-Kotlin-blue)](https://kotlinlang.org)
 [![Version](https://jitpack.io/v/merklol/RxMvi.svg)](https://jitpack.io/#merklol/RxMvi)
