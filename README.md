@@ -1,4 +1,4 @@
-<img src="rxmvi_logo.png" alt="rxmvi-logo" width="260px" height="150px"/>
+<img src="rxmvi_logo.png" alt="rxmvi-logo" width="261px" height="150px"/>
 <br>
 
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE.md)
