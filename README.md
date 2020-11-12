@@ -1,4 +1,3 @@
-## RxMvi
 <img src="rxmvi_logo.png" alt="rxmvi-logo" width="300px" height="150px"/>
 <br>
 
