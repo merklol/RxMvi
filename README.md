@@ -1,4 +1,6 @@
-## RxMvi
+<img src="rxmvi_logo.png" alt="rxmvi-logo" width="261px" height="150px"/>
+<br>
+
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE.md)
 [![Language](https://img.shields.io/badge/language%3A-Kotlin-blue)](https://kotlinlang.org)
 [![Version](https://jitpack.io/v/merklol/RxMvi.svg)](https://jitpack.io/#merklol/RxMvi)
@@ -333,6 +335,116 @@ I/rxMvi-logger: ️action type = Calculating; current state = { CounterState(isC
 I/rxMvi-logger: ️action type = Increment; current state = { CounterState(isCalculating=true, isHintDisplayed=false, result=0) }
 ```
 
+### Testing
+
+Here is are a few examples of how to test the business logic in your app.
+
+**1. Unit tests**
+
+Let's first mock a middleware
+
+```kotlin
+@Before
+    private fun mockMiddleware() {
+            val action = MainEffect.IncrementSuccess(1)
+            every { inc.bind(any(), any()) } answers { Observable.just(action) }
+        }
+```
+
+Now let's test state changes out using the TestObserver from RxJava's testing APIs
+
+```kotlin
+@Test
+    fun `when increment counter triggered, should hide hint and change result to 1`() {
+        viewModel.incrementCounter(Observable.just(Unit))
+        val state = testObserver.values()[0] as CounterState
+        assertThat(state.isHintDisplayed, `is`(false))
+        assertThat(state.result, `is`(1))
+    }
+```
+
+To test the middleware, let's subscribe to the actions and check whether we receive the right effects
+
+```kotlin
+@Before
+    fun setup() {
+        RxAndroidPlugins.setInitMainThreadSchedulerHandler { Schedulers.trampoline() }
+        val inc = IncrementMiddleware()
+        inc.bind(state, action).subscribe(testObserver)
+    }
+
+@Test
+    fun `after delay, should return IncrementSuccess`() {
+        testObserver.awaitDone(4, TimeUnit.SECONDS)
+        val effect = testObserver.values()[1] as MainEffect.IncrementSuccess
+        assertThat(effect.payload, `is`(1))
+    }
+```
+
+**2. UI Tests**
+
+For UI tests, we are going to use the Espresso Framework. First, let's add a test rule that is going to be responsible for taking screenshots during the tests.
+
+```kotlin
+class ScreenshotTestRule : TestWatcher() {
+
+    @Throws(IOException::class)
+    override fun finished(description: Description?) {
+        super.finished(description)
+
+        val className = description?.testClass?.simpleName ?: "NullClassname"
+        val methodName = description?.methodName ?: "NullMethodName"
+        val filename = "$className - $methodName"
+
+        val capture = Screenshot.capture()
+        capture.name = filename
+        capture.format = Bitmap.CompressFormat.PNG
+
+        val processors = HashSet<androidx.test.runner.screenshot.ScreenCaptureProcessor>()
+        processors.add(ScreenCaptureProcessor())
+        capture.process(processors)
+    }
+}
+```
+
+Next, we add and set up a UI test
+
+```kotlin
+@RunWith(AndroidJUnit4::class)
+class CounterActivityTest {
+    @get:Rule
+    var activityRule: ActivityScenarioRule<CounterActivity>
+            = ActivityScenarioRule(CounterActivity::class.java)
+
+    @get:Rule
+    val ruleChain: RuleChain = RuleChain
+        .outerRule(activityRule).around(ScreenshotTestRule())
+
+    /*...*/
+}
+```
+
+Now, we can add test cases using the Espresso Framework
+
+```kotlin
+    @Test
+    fun when_dec_button_clicked_should_display_minus1() {
+        onView(withId(R.id.decBtnView)).perform(click())
+        onView(withId(R.id.counterView)).check(matches(withText("-1")))
+    }
+
+    @Test
+    fun when_inc_button_clicked_should_display_progressBar() {
+        onView(withId(R.id.incBtnView)).perform(click())
+        onView(withId(R.id.progressView)).check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun when_showHint_button_clicked_should_hide_hintView() {
+        onView(withId(R.id.showHintBtnView)).perform(click())
+        onView(withId(R.id.hintView)).check(matches(not(isDisplayed())))
+    }
+```
 
 #### Demo Apps
 

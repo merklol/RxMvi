@@ -62,7 +62,6 @@ class CounterViewModelTest {
         val store = createStore(CounterReducer(), CounterState(), middlewares(inc))
         viewModel = CounterViewModel(store)
         store.state.subscribe(testObserver)
-
     }
 
     @Test

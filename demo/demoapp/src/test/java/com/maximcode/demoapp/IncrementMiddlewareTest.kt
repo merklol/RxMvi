@@ -47,7 +47,6 @@ class IncrementMiddlewareTest {
     @Before
     fun setup() {
         RxAndroidPlugins.setInitMainThreadSchedulerHandler { Schedulers.trampoline() }
-        MockKAnnotations.init(this)
         val inc = IncrementMiddleware()
         inc.bind(state, action).subscribe(testObserver)
     }
