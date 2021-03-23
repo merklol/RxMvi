@@ -39,10 +39,10 @@ ext {
     recyclerview = '1.1.0'
 
     //Hilt
-    hilt = '2.28-alpha'
-    hiltAndroidCompiler = '2.28-alpha'
-    hiltLifecycle = '1.0.0-alpha02'
-    hiltCompiler = '1.0.0-alpha02'
+    hilt = '2.31-alpha'
+    hiltAndroidCompiler = '2.31-alpha'
+    hiltLifecycle = '1.0.0-alpha03'
+    hiltCompiler = '1.0.0-beta01'
 
     //ViewModel
     viewModelKtx = '2.2.0'
