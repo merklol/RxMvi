@@ -23,14 +23,19 @@
  */
 package com.maximcode.rxmvi.view
 
-import androidx.appcompat.app.AppCompatActivity
+import androidx.annotation.LayoutRes
+import androidx.fragment.app.Fragment
 
 /**
- * A base implementation of the [View] interface that bind and unbind it to the store. Note:
+ * A fragment that implements the [View] interface to bind and unbind it to the store.
  *
- * Note: All Views should extend this to get RxMvi functionality.
+ * Note: All Fragments should extend this to get RxMvi functionality.
  */
-public abstract class RxMviView<State, ViewModel: RxMviViewModel<State>>: AppCompatActivity(), View<State> {
+public abstract class RxMviFragment<State, ViewModel: RxMviViewModel<State>>: Fragment, View<State> {
+    public constructor(): super()
+
+    public constructor(@LayoutRes contentLayoutId: Int): super(contentLayoutId)
+
     public abstract val viewModel: ViewModel
 
     /**

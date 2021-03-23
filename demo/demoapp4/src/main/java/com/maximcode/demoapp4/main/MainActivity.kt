@@ -27,12 +27,12 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import com.jakewharton.rxbinding4.widget.textChanges
 import com.maximcode.demoapp4.R
-import com.maximcode.rxmvi.view.RxMviView
+import com.maximcode.rxmvi.view.RxMviActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
 
 @AndroidEntryPoint
-class MainActivity: RxMviView<MainState, MainViewModel>() {
+class MainActivity: RxMviActivity<MainState, MainViewModel>() {
     override val viewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {

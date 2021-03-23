@@ -21,27 +21,30 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.maximcode.demoapp3.main
+package com.maximcode.rxmvi.view
 
-import android.os.Bundle
-import androidx.activity.viewModels
-import com.maximcode.demoapp3.R
-import com.maximcode.rxmvi.view.RxMviActivity
-import com.jakewharton.rxbinding4.view.clicks
-import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.activity_main.*
+import androidx.appcompat.app.AppCompatActivity
 
-@AndroidEntryPoint
-class MainActivity : RxMviActivity<MainState, MainViewModel>() {
-    override val viewModel: MainViewModel by viewModels()
+/**
+ * An activity that implements the [View] interface to bind and unbind it to the store.
+ *
+ * Note: All Activities should extend this to get RxMvi functionality.
+ */
+public abstract class RxMviActivity<State, ViewModel: RxMviViewModel<State>>: AppCompatActivity(), View<State> {
+    public abstract val viewModel: ViewModel
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        viewModel.showMessage(btnView.clicks())
+    /**
+     * Renders the state of the store to the UI
+     */
+    abstract override fun render(state: State)
+
+    override fun onPause() {
+        super.onPause()
+        viewModel.unbind()
     }
 
-    override fun render(state: MainState) {
-        myTextView.text = state.message
+    override fun onResume() {
+        super.onResume()
+        viewModel.bind(this)
     }
 }

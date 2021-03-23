@@ -1,6 +1,6 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
-    ext.kotlin_version = "1.4.10"
+    ext.kotlin_version = "1.4.31"
     repositories {
         google()
         jcenter()
@@ -8,7 +8,7 @@ buildscript {
     dependencies {
         classpath "com.android.tools.build:gradle:4.0.2"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath 'com.google.dagger:hilt-android-gradle-plugin:2.28-alpha'
+        classpath 'com.google.dagger:hilt-android-gradle-plugin:2.32-alpha'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -16,7 +16,7 @@ buildscript {
 }
 ext {
     //RxJava
-    rxJavaVersion = '3.0.6'
+    rxJavaVersion = '3.0.11'
     rxAndroid = '3.0.0'
     rxRelay = '3.0.0'
     rxBinding = '4.0.0'
@@ -39,10 +39,10 @@ ext {
     recyclerview = '1.1.0'
 
     //Hilt
-    hilt = '2.28-alpha'
-    hiltAndroidCompiler = '2.28-alpha'
-    hiltLifecycle = '1.0.0-alpha02'
-    hiltCompiler = '1.0.0-alpha02'
+    hilt = '2.31-alpha'
+    hiltAndroidCompiler = '2.31-alpha'
+    hiltLifecycle = '1.0.0-alpha03'
+    hiltCompiler = '1.0.0-beta01'
 
     //ViewModel
     viewModelKtx = '2.2.0'
