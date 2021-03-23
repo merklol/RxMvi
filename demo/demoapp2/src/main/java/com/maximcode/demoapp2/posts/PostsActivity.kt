@@ -30,12 +30,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.maximcode.demoapp2.R
 import com.maximcode.demoapp2.recyclerview.RVAdapter
 import com.maximcode.demoapp2.recyclerview.RVMarginDecoration
-import com.maximcode.rxmvi.view.RxMviView
+import com.maximcode.rxmvi.view.RxMviActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_posts.*
 
 @AndroidEntryPoint
-class PostsActivity : RxMviView<PostsState, PostsViewModel>() {
+class PostsActivity : RxMviActivity<PostsState, PostsViewModel>() {
     override val viewModel: PostsViewModel by viewModels()
 
     private val adapter = RVAdapter()

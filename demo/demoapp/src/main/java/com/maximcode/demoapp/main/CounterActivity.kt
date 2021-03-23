@@ -27,13 +27,13 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
 import com.jakewharton.rxbinding4.view.clicks
-import com.maximcode.rxmvi.view.RxMviView
+import com.maximcode.rxmvi.view.RxMviActivity
 import com.maximcode.demoapp.R
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_counter.*
 
 @AndroidEntryPoint
-class CounterActivity : RxMviView<CounterState, CounterViewModel>() {
+class CounterActivity : RxMviActivity<CounterState, CounterViewModel>() {
     override val viewModel: CounterViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
