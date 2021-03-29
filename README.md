@@ -25,7 +25,7 @@ allprojects {
 Add the dependency to module build.gradle
 
 ```groovy
-implementation 'com.github.merklol:RxMvi:0.1.1'
+implementation 'com.github.merklol:RxMvi:<version>'
 ```
 
 ### Usage
