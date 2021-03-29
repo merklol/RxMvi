@@ -31,10 +31,10 @@ import com.maximcode.rxmvi.core.store.createStore
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ApplicationComponent
+import dagger.hilt.components.SingletonComponent
 
 @Module
-@InstallIn(ApplicationComponent::class)
+@InstallIn(SingletonComponent::class)
 class MainModule {
     @Provides
     fun provideStore(): Store<MainState> {
