@@ -23,13 +23,15 @@
  */
 package com.maximcode.demoapp2.posts
 
-import androidx.hilt.lifecycle.ViewModelInject
 import com.maximcode.rxmvi.core.store.Store
 import com.maximcode.rxmvi.utils.plusAssign
 import com.maximcode.rxmvi.view.RxMviViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import javax.inject.Inject
 
-class PostsViewModel @ViewModelInject constructor(
+@HiltViewModel
+class PostsViewModel @Inject constructor(
     private val store: Store<PostsState>): RxMviViewModel<PostsState>(store) {
 
     override val disposables = CompositeDisposable()

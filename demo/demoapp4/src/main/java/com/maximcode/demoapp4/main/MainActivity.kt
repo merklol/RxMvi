@@ -26,25 +26,26 @@ package com.maximcode.demoapp4.main
 import android.os.Bundle
 import androidx.activity.viewModels
 import com.jakewharton.rxbinding4.widget.textChanges
-import com.maximcode.demoapp4.R
+import com.maximcode.demoapp4.databinding.ActivityMainBinding
 import com.maximcode.rxmvi.view.RxMviActivity
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.activity_main.*
 
 @AndroidEntryPoint
 class MainActivity: RxMviActivity<MainState, MainViewModel>() {
+    private lateinit var binding: ActivityMainBinding
     override val viewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        viewModel.validateText(editTextView.textChanges())
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        viewModel.validateText(binding.editTextView.textChanges())
 
     }
 
     override fun render(state: MainState) {
         if(state.text.length > 4) {
-            editTextView.error = "The text is too long"
+            binding.editTextView.error = "The text is too long"
         }
     }
 }
