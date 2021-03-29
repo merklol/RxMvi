@@ -27,22 +27,23 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.maximcode.demoapp2.R
+import com.maximcode.demoapp2.databinding.ActivityPostsBinding
 import com.maximcode.demoapp2.recyclerview.RVAdapter
 import com.maximcode.demoapp2.recyclerview.RVMarginDecoration
 import com.maximcode.rxmvi.view.RxMviActivity
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.activity_posts.*
 
 @AndroidEntryPoint
 class PostsActivity : RxMviActivity<PostsState, PostsViewModel>() {
+    private lateinit var binding: ActivityPostsBinding
     override val viewModel: PostsViewModel by viewModels()
 
     private val adapter = RVAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_posts)
+        binding = ActivityPostsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         setRecyclerView()
 
         viewModel.loadPosts()
@@ -50,21 +51,21 @@ class PostsActivity : RxMviActivity<PostsState, PostsViewModel>() {
 
     override fun render(state: PostsState) {
         when {
-            state.loading -> progressView.visibility = View.VISIBLE
+            state.loading -> binding.progressView.visibility = View.VISIBLE
             state.loaded -> {
                 if(state.error != null) {
-                    errorView.text = state.error.message
-                    errorView.visibility = View.VISIBLE
+                    binding.errorView.text = state.error.message
+                    binding.errorView.visibility = View.VISIBLE
                 }
-                progressView.visibility = View.GONE
+                binding.progressView.visibility = View.GONE
                 adapter.addPosts(state.posts)
             }
         }
     }
 
     private fun setRecyclerView() {
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = adapter
-        recyclerView.addItemDecoration(RVMarginDecoration(this, 16, 16))
+        binding.recyclerView.layoutManager = LinearLayoutManager(this)
+        binding.recyclerView.adapter = adapter
+        binding.recyclerView.addItemDecoration(RVMarginDecoration(this, 16, 16))
     }
 }

@@ -29,16 +29,18 @@ import androidx.activity.viewModels
 import com.jakewharton.rxbinding4.view.clicks
 import com.maximcode.rxmvi.view.RxMviActivity
 import com.maximcode.demoapp.R
+import com.maximcode.demoapp.databinding.ActivityCounterBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.activity_counter.*
 
 @AndroidEntryPoint
 class CounterActivity : RxMviActivity<CounterState, CounterViewModel>() {
+    private lateinit var binding: ActivityCounterBinding
     override val viewModel: CounterViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_counter)
+        binding = ActivityCounterBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         bindActions()
     }
 
@@ -49,21 +51,21 @@ class CounterActivity : RxMviActivity<CounterState, CounterViewModel>() {
     }
 
     private fun bindActions() {
-        viewModel.incrementCounter(incBtnView.clicks())
-        viewModel.decrementCounter(decBtnView.clicks())
-        viewModel.showHint(showHintBtnView.clicks())
+        viewModel.incrementCounter(binding.incBtnView.clicks())
+        viewModel.decrementCounter(binding.decBtnView.clicks())
+        viewModel.showHint(binding.showHintBtnView.clicks())
     }
 
     private fun renderHint(state: CounterState) {
         when {
             state.isHintDisplayed -> {
-                showHintBtnView.text = getString(R.string.hide_hint_btn)
-                hintView.visibility = View.VISIBLE
+                binding.showHintBtnView.text = getString(R.string.hide_hint_btn)
+                binding.hintView.visibility = View.VISIBLE
             }
 
             !state.isHintDisplayed -> {
-                showHintBtnView.text = getString(R.string.show_hint_btn)
-                hintView.visibility = View.GONE
+                binding. showHintBtnView.text = getString(R.string.show_hint_btn)
+                binding.hintView.visibility = View.GONE
             }
         }
     }
@@ -71,13 +73,13 @@ class CounterActivity : RxMviActivity<CounterState, CounterViewModel>() {
     private fun renderCounter(state: CounterState) {
         when {
             state.isCalculating -> {
-                progressView.visibility = View.VISIBLE
-                counterGroup.visibility = View.GONE
+                binding.progressView.visibility = View.VISIBLE
+                binding.counterGroup.visibility = View.GONE
             }
             else -> {
-                progressView.visibility = View.GONE
-                counterGroup.visibility = View.VISIBLE
-                counterView.text = state.result.toString()
+                binding.progressView.visibility = View.GONE
+                binding.counterGroup.visibility = View.VISIBLE
+                binding.counterView.text = state.result.toString()
             }
         }
     }

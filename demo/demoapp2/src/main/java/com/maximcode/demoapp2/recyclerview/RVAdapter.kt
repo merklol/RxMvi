@@ -24,26 +24,23 @@
 package com.maximcode.demoapp2.recyclerview
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.maximcode.demoapp2.R
+import com.maximcode.demoapp2.databinding.RecyclerviewItemBinding
 import com.maximcode.demoapp2.dto.Post
-import kotlinx.android.synthetic.main.recyclerview_item.view.*
 
 class RVAdapter(private val posts: MutableList<Post> = mutableListOf()): RecyclerView.Adapter<RVAdapter.Holder>() {
 
-    class Holder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class Holder(private val binding: RecyclerviewItemBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(post: Post) {
-            itemView.titleView.text = post.title
-            itemView.bodyView.text = post.body
+            binding.titleView.text = post.title
+            binding.bodyView.text = post.body
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         return Holder(
-            LayoutInflater.from(parent.context)
-                .inflate(R.layout.recyclerview_item, parent, false)
+            RecyclerviewItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         )
     }
 

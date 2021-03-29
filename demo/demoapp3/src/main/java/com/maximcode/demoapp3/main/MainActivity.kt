@@ -25,23 +25,24 @@ package com.maximcode.demoapp3.main
 
 import android.os.Bundle
 import androidx.activity.viewModels
-import com.maximcode.demoapp3.R
 import com.maximcode.rxmvi.view.RxMviActivity
 import com.jakewharton.rxbinding4.view.clicks
+import com.maximcode.demoapp3.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.activity_main.*
 
 @AndroidEntryPoint
 class MainActivity : RxMviActivity<MainState, MainViewModel>() {
+    private lateinit var binding: ActivityMainBinding
     override val viewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        viewModel.showMessage(btnView.clicks())
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        viewModel.showMessage(binding.btnView.clicks())
     }
 
     override fun render(state: MainState) {
-        myTextView.text = state.message
+        binding.myTextView.text = state.message
     }
 }
